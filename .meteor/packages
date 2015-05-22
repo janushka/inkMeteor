@@ -7,3 +7,4 @@ standard-app-packages
 insecure
 iron:router
 manipulate-categoriesamounts-collection
+grigio:babel
