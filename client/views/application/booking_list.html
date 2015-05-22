@@ -1,0 +1,33 @@
+<template name="booking_list">
+    <p class="example-title">Ausgaben {{ categoryTitle }}</p>
+
+    <div class="vertical-space"></div>
+
+    <table id="booking_list" class="ink-table hover slab-300">
+        <thead class="slab-700">
+        <tr>
+            <th class="align-left">Datum</th>
+            <th class="align-left">Anmerkung</th>
+            <th class="align-left">Kategorie</th>
+            <th class="align-left">Betrag (€)</th>
+            <th class="align-center"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each bookings}}
+            <tr>
+                <td>{{ datum }}</td>
+                <td>{{ remark }}</td>
+                <td>{{ category }}</td>
+                <td>{{ amount }}</td>
+                <td class="align-right">
+                    <button class="ink-button grey"><a href="{{pathFor 'edit_booking'}}">Ändern</a></button>
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+    {{#if nextPath}}
+        <a class="slab-600" href="{{nextPath}}">Weitere laden...</a>
+    {{/if}}
+</template>

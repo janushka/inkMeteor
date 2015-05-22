@@ -1,0 +1,100 @@
+<template name="edit_category">
+    <p class="example-title">Kategorie ändern</p>
+
+    <div class="vertical-space"></div>
+        <form id="edit_category" class="ink-form slab-500">
+            {{#ifEditCategory}}
+                {{> successEditCategoryAlert }}
+            {{/ifEditCategory}}
+            {{#ifNoChangesCategory}}
+                {{> noChangesInCategoryAlert }}
+            {{/ifNoChangesCategory}}
+            {{#ifDeleteCategory}}
+                {{> successDeleteCategoryAlert }}
+            {{/ifDeleteCategory}}
+            {{#ifDependentBookings}}
+                {{> dependentBookingsAlert }}
+            {{/ifDependentBookings}}
+            <div class="column-group gutters">
+                <div class="control-group required all-100">
+                    <label for="edit_category_name">Name</label>
+
+                    <div class="control">
+                        <input id="edit_category_name" name="name" type="text" class="ink-fv-custom notEmpty" {{disabledProperty}} value="{{#with category}}{{name}}{{/with}}">
+                    </div>
+                </div>
+                <div class="control-group all-100">
+                    <div class="control">
+                        <label for="edit_category_description">Beschreibung</label>
+
+                        <div class="control">
+                            <textarea rows="2" cols="40" name="description" id="edit_category_description" {{disabledProperty}}>{{#with category}}{{description}}{{/with}}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column-group gutters">
+                <div class="control-group all-50">
+                    <div class="control">
+                        <button id="save_category" class="ink-button grey uppercase" {{ savingAndDeleteButtonDisabled }} {{disabledProperty}}>speichern</button>
+                        <button id="delete_category"
+                                class="ink-button red uppercase large-push-right xlarge-push-right" {{ savingAndDeleteButtonDisabled }} {{disabledProperty}}>
+                            endgültig löschen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+</template>
+
+<template name="ifEditCategory">
+    {{#if isPresent}}
+        {{> UI.contentBlock}}
+    {{/if}}
+</template>
+
+<template name="ifNoChangesCategory">
+    {{#if isPresent}}
+        {{> UI.contentBlock}}
+    {{/if}}
+</template>
+
+<template name="ifDeleteCategory">
+    {{#if isPresent}}
+        {{> UI.contentBlock}}
+    {{/if}}
+</template>
+
+<template name="ifDependentBookings">
+    {{#if isPresent}}
+        {{> UI.contentBlock}}
+    {{/if}}
+</template>
+
+<template name="successEditCategoryAlert">
+    <div class="ink-alert basic success" role="alert">
+        <button id="close_acknowledge_edit_category" class="ink-dismiss">&times;</button>
+        <p><b>Bestätigung:</b> Kategorie erfolgreich geändert.</p>
+    </div>
+</template>
+
+<template name="noChangesInCategoryAlert">
+    <div class="ink-alert basic warning" role="alert">
+        <button id="close_acknowledge_nochanges_category" class="ink-dismiss">&times;</button>
+        <p><b>Warnung:</b> Keine Änderungen festgestellt. Speichern abgebrochen!</p>
+    </div>
+</template>
+
+<template name="successDeleteCategoryAlert">
+    <div class="ink-alert basic success" role="alert">
+        <button id="close_acknowledge_delete_category" class="ink-dismiss">&times;</button>
+        <p><b>Bestätigung:</b> Kategorie erfolgreich gelöscht.</p>
+    </div>
+</template>
+
+<template name="dependentBookingsAlert">
+    <div class="ink-alert basic error" role="alert">
+        <button id="close_acknowledge_dependent_bookings_category" class="ink-dismiss">&times;</button>
+        <p><b>Fehler:</b> Abhängige Buchungen zuerst, dann diese Kategorie löschen.</p>
+    </div>
+</template>

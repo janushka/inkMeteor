@@ -1,0 +1,99 @@
+<template name="new_booking">
+    <p class="example-title">Neue Buchung</p>
+
+    <div class="vertical-space"></div>
+    <form id="new_booking" class="ink-form slab-500">
+        {{#ifCategoriesAlert}}
+            {{> noCategoriesAlert }}
+        {{else}}
+        {{/ifCategoriesAlert}}
+        {{#ifNewBooking}}
+            {{> successBookingAlert }}
+        {{/ifNewBooking}}
+        <div id="new_booking_columns" class="column-group gutters">
+            <div class="control-group required all-100">
+                <label for="new_booking_amount">Betrag (€)</label>
+
+                <div class="control">
+                    <input type="text" name="amount" id="new_booking_amount"
+                           class="ink-fv-custom positiveIntegerOrDecimal" {{disabledProperty}}>
+                </div>
+            </div>
+            <div class="control-group required all-100">
+                <label for="new_booking_datum">Datum</label>
+
+                <div class="control">
+                    <input type="text" id="new_booking_datum" class="ink-datepicker" {{disabledProperty}}/>
+                </div>
+            </div>
+            <div class="control-group required all-100">
+                <label for="new_booking_category">Kategorie</label>
+
+                <div class="control">
+                    <select name="category" id="new_booking_category" {{disabledProperty}}>
+                        {{#each categories}}
+                            <option value={{ name }}>{{ name }}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <p class="tip"><a href="{{pathFor 'new_category'}}">neue Kategorie</a>
+                    {{#ifCategoriesLink}}
+                        <a id="edit_category" style="padding-left:2em;" href="{{pathFor 'edit_category'}}">Kategorie ändern</a>
+                    {{ else }}
+                        <span style="padding-left:2em;">Kategorie ändern</span>
+                    {{/ifCategoriesLink}}
+                </p>
+            </div>
+            <div class="control-group all-100">
+                <label for="new_booking_remark">Anmerkung</label>
+
+                <div class="control">
+                    <textarea rows="2" cols="20" name="remark" id="new_booking_remark" {{disabledProperty}}></textarea>
+                </div>
+            </div>
+            <div class="control-group all-100">
+                <div class="control">
+                    <button id="submit_booking"
+                            class="ink-button grey uppercase" {{ bookingButtonDisabled }} {{disabledProperty}}>buchen
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</template>
+
+<template name="ifCategoriesAlert">
+    {{#if isPresent}}
+        {{> UI.contentBlock}}
+    {{else}}
+        {{> UI.elseBlock}}
+    {{/if}}
+</template>
+
+<template name="ifCategoriesLink">
+    {{#if isPresent}}
+        {{> UI.contentBlock}}
+    {{else}}
+        {{> UI.elseBlock}}
+    {{/if}}
+</template>
+
+<template name="ifNewBooking">
+    {{#if isPresent}}
+        {{> UI.contentBlock}}
+    {{/if}}
+</template>
+
+<template name="noCategoriesAlert">
+    <div class="ink-alert basic info" role="alert">
+        <button id="close_category_alert" class="ink-dismiss">&times;</button>
+        <p><b>Info:</b> Kategorie(n) zuvor anlegen.</p>
+    </div>
+</template>
+
+<template name="successBookingAlert">
+    <div class="ink-alert basic success" role="alert">
+        <button id="close_acknowledge_booking" class="ink-dismiss">&times;</button>
+        <p><b>Bestätigung:</b> Buchung erfolgreich gespeichert.</p>
+    </div>
+</template>

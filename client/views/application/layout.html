@@ -1,0 +1,87 @@
+<head>
+    <title>Hausverwaltung</title>
+    <link rel="icon"
+          type="image/x-icon"
+          sizes="32x32"
+          href="/icons/favicon.ico?v=2">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+</head>
+
+<body>
+
+</body>
+
+<template name="layout">
+    <div class="top-menu">
+        <nav class="ink-navigation ink-grid fw-300">
+            <ul class="menu horizontal black">
+                <li class="{{activeRouteClass 'booking_list'}}"><a class="uppercase" href="{{pathFor 'booking_list'}}">übersicht</a>
+                    <ul class="submenu">
+                        <li><a href="">Ausgabekategorie</a>
+                            {{#ifLayoutCategoriesData}}
+                                <ul class="submenu flyout right">
+                                    {{#each categories}}
+                                        <li id="li_category_{{ name }}" class="category_list_item"><a href="">{{ name }}</a></li>
+                                    {{/each}}
+                                    <li id="li_all_categories"><a href="">-Alle-</a></li>
+                                </ul>
+                            {{/ifLayoutCategoriesData}}
+                        </li>
+                        <li><a href="">Statistikzeitraum</a>
+                            {{#ifTimeWindow}}
+                                <ul class="submenu flyout right">
+                                    <li id="li_day"><a href="">Tag</a></li>
+                                    <li id="li_week"><a href="">Woche</a></li>
+                                    <li id="li_month"><a href="">Monat</a></li>
+                                    <li id="li_year"><a href="">Jahr</a></li>
+                                    <li id="li_all_timeranges"><a href="">-Alle-</a></li>
+                                </ul>
+                            {{/ifTimeWindow}}
+                        </li>
+                    </ul>
+
+                </li>
+                <li class="{{activeRouteClass 'new_booking'}}"><a class="uppercase" href="{{pathFor 'new_booking'}}">neue
+                    Buchung</a></li>
+                <li class="{{activeRouteClass 'new_category'}}"><a class="uppercase" href="{{pathFor 'new_category'}}">neue
+                    kategorie</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="ink-grid">
+        <header class="vertical-space">
+            <h1>Hausverwaltung
+                <small>Pflege und Übersicht&nbsp;der Ein- und Ausgaben mit Wochen-, Monats- und Jahresansicht (letzten
+                    12 Monate)
+                </small>
+            </h1>
+        </header>
+        <div class="vertical-space">
+            <div class="column-group horizontal-gutters">
+                <div class="xlarge-60 large-60 medium-100 small-100 tiny-100">
+                    {{> yield}}
+                </div>
+                <div class="xlarge-5 large-5 medium-100 small-100 tiny-100"></div>
+                <div class="xlarge-35 large-35 medium-100 small-100 tiny-100">
+                    {{> yield region="booking_statistics"}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="ifLayoutCategoriesData">
+    {{#if isPresent}}
+        {{> UI.contentBlock}}
+    {{/if}}
+</template>
+
+<template name="ifTimeWindow">
+    {{#if isChecked}}
+        {{> UI.contentBlock}}
+    {{/if}}
+</template>
+

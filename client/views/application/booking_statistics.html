@@ -1,0 +1,127 @@
+<template name="booking_statistics">
+
+        <p class="example-title">Statistik {{ timeRangeTitle }}</p>
+
+        <div class="vertical-space"></div>
+        <div class="highlight slab-300">
+            {{#ifBookingData}}
+                {{> categoriesAmount }}
+            {{/ifBookingData}}
+            <div class="column-group horizontal-gutters">
+                <div class="xlarge-100 large-100 medium-100 small-100 tiny-100">
+                    <form id="statistic_form" class="ink-form">
+                        <fieldset>
+                            <div class="control-group">
+                                <ul class="control unstyled inline">
+                                    <li><input type="radio" id="rb_day" name="rb"
+                                               value="day_bookings" {{ disabledTimeBox }} {{ disabledTimeRangeDate timeRange="day"}}><label
+                                            for="rb_day">Tag</label></li>
+                                    <li><input type="radio" id="rb_week" name="rb"
+                                               value="week_bookings" {{ disabledTimeBox }} {{ disabledTimeRangeDate timeRange="week"}}><label
+                                            for="rb_week">Woche</label></li>
+                                    <li><input type="radio" id="rb_month" name="rb"
+                                               value="month_bookings" {{ disabledTimeBox }} {{ disabledTimeRangeDate timeRange="month"}}><label
+                                            for="rb_month">Monat</label></li>
+                                    <li><input type="radio" id="rb_year" name="rb"
+                                               value="year_bookings" {{ disabledTimeBox }} {{ disabledTimeRangeDate timeRange="year"}}><label
+                                            for="rb_year">Jahr</label></li>
+                                    <li><input type="radio" id="rb_all" name="rb"
+                                               value="all_bookings" {{ disabledTimeBox }} {{ disabledTimeRangeDate timeRange="all"}}><label
+                                            for="rb_all">Keine Einschräkung</label></li>
+                                </ul>
+                                <ul class="control unstyled inline">
+                                    <li>
+                                        <input type="checkbox" id="statistic_search_by_range"><label
+                                            for="statistic_search_by_range">Zeitfenster</label>
+                                    </li>
+                                </ul>
+                                {{#ifDateOutOfRange}}
+                                    {{> dateRangeAlert }}
+                                {{/ifDateOutOfRange}}
+                                <ul class="control unstyled inline">
+                                    <li>
+                                        <div class="control all-100">
+                                            <input type="text" id="statistic_begin_datefield"
+                                                   class="ink-datepicker"
+                                                {{disabledProperty}}/>
+
+                                            <p class="tip">Beginn</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="control all-100">
+                                            <input type="text" id="statistic_end_datefield"
+                                                   class="ink-datepicker" {{disabledProperty}}/>
+
+                                            <p class="tip">Ende</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul class="control unstyled inline">
+                                    <li>
+                                        <div class="control all-100">
+                                            <button id="statistics_update_button"
+                                                    class="ink-button black" {{disabledProperty}}>Aktualisieren
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+</template>
+
+<template name="ifBookingData">
+    {{#if isPresent}}
+        {{> UI.contentBlock}}
+    {{/if}}
+</template>
+
+<template name="categoriesAmount">
+    <div class="column-group horizontal-gutters">
+        <div class="all-70">
+            <div class="uppercase">
+                <ul class="unstyled">
+                    {{> categoriesBlock }}
+                </ul>
+            </div>
+        </div>
+        <div class="all-30">
+            <div class="push-right">
+                <ul class="unstyled">
+                    {{> amountsBlock }}
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="categoriesBlock">
+    {{#each categories}}
+        <li>{{ name }}</li>
+    {{/each}}
+    <li><b>GESAMT</b></li>
+</template>
+
+<template name="amountsBlock">
+    {{#each categories}}
+        <li>{{ accumulatedAmount }} €</li>
+    {{/each}}
+    <li><b>{{ total }} €</b></li>
+</template>
+
+<template name="ifDateOutOfRange">
+    {{#if isOutOfRange}}
+        {{> UI.contentBlock}}
+    {{/if}}
+</template>
+
+<template name="dateRangeAlert">
+    <div class="ink-alert basic error" role="alert">
+        <button id="close_acknowledge_daterange" class="ink-dismiss">&times;</button>
+        <p><b>Fehler:</b> Beginndatum muss kleiner als Enddatum sein.</p>
+    </div>
+</template>
